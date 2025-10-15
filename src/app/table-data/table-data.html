@@ -1,0 +1,51 @@
+<link
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+  rel="stylesheet"
+/>
+
+<div *ngIf="transactions.length > 0">
+  <h5 class="text-center mb-3 text-secondary">Extracted Transaction Data</h5>
+
+  <div class="table-responsive">
+    <table class="table table-hover table-striped table-bordered align-middle text-center">
+      <thead class="table-dark">
+        <tr>
+          <th>Transaction Date</th>
+          <!-- <th>VoucherType</th> -->
+          <th>Value Date</th>
+          <th>Cheque No</th>
+          <th>VoucherType</th>
+          <th>Description</th>
+          <th>Branch</th>
+          <th>Debit (₹)</th>
+          <th>Credit (₹)</th>
+          <th>Balance (₹)</th>
+        </tr>
+      </thead>
+      <tbody class="table-group-divider">
+        <tr *ngFor="let txn of transactions">
+          <td>{{ txn.transactionDate }}</td>
+          <!-- <td>{{}txn.voucherType}}</td> -->
+          <td>{{ txn.valueDate }}</td>
+          <td>{{ txn.chequeNo }}</td>
+          <td>{{txn.voucherName}}</td>
+          <td class="text-start">{{ txn.description }}</td>
+          <td>{{ txn.branch }}</td>
+          <td class="text-danger fw-semibold">{{ txn.debit }}</td>
+          <td class="text-success fw-semibold">{{ txn.credit }}</td>
+          <td class="fw-bold">{{ txn.balance }}</td>
+        </tr>
+      </tbody>
+<tfoot class="table-dark">
+      <tr>
+        <th colspan="6" class="text-end">Grand Total</th>
+        <th class="text-danger fw-semibold">{{ totalDebit | number:'1.2-2' }}</th>
+        <th class="text-success fw-semibold">{{ totalCredit | number:'1.2-2' }}</th>
+        <th class="text-dark fw-bold">{{totalAmount | number: '1.2-2'}} </th>
+        <th></th>
+      </tr>
+    </tfoot>
+
+    </table>
+  </div>
+</div>

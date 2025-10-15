@@ -1,0 +1,29 @@
+h4 {
+   color: goldenrod; 
+   text-align: center;
+   text-decoration: underline;
+}
+/* Remove weird cursor on table cells */
+.table td, 
+.table th {
+  cursor: default; /* normal arrow cursor */
+}
+
+/* Use text cursor only inside inputs */
+.table td input, 
+.table th input {
+  cursor: text; /* shows caret when typing */
+}
+
+/* Optional: prevent table selection highlighting */
+.table {
+  user-select: none; /* prevents accidental text selection */
+}
+
+.table td input {
+  user-select: text; /* allow typing in inputs */
+}
+.table-responsive {
+  overflow-x: auto; /* allow scroll */
+  cursor: default;  /* prevent left/right resize cursor */
+}
