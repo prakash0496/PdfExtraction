@@ -174,14 +174,14 @@ onVoucherEdit(newValue: string) {
  downloadXml() {
   if (!this.selectedBank || !this.transactions || this.transactions.length === 0) return;
 
+  // 🔹 Optional: clear filters on UI before downloading
+  this.filters = {};
+  this.filteredTransactions = [...this.transactions];
+
   const formData = new FormData();
   formData.append('bank', this.selectedBank);
-  formData.append('bankName',this.typeBank);
-
-  const currentTableData = this.filteredTransactions?.length ? this.filteredTransactions : this.transactions;
-
-  // Send JSON string directly
-  formData.append('tableData', JSON.stringify(currentTableData));
+  formData.append('bankName', this.typeBank);
+  formData.append('tableData', JSON.stringify(this.transactions));
 
   this.http.post('http://localhost:8080/api/pdf/extract/tallyxml', formData, {
     responseType: 'blob'
@@ -198,6 +198,7 @@ onVoucherEdit(newValue: string) {
     error: (err) => console.error('XML download error:', err)
   });
 }
+
 
   // 🔹 Download Excel
   downloadExcel() {
