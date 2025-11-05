@@ -3,19 +3,17 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import * as XLSX from 'xlsx';
-import { saveAs } from 'file-saver';
+import { Auth } from '../auth/auth';
+import { Router } from '@angular/router';
 
 // 🔹 Transaction Interface
 export interface Transaction {
   transactionDate: string;
-  valueDate: string;
-  chequeNo: string;
-  branchCode: string;
   description: string;
   debit: string;
   credit: string;
   balance: string;
-  voucherName: string;
+  voucherType: string;
   LedgerName: string;
   [key: string]: any;
 }
@@ -29,6 +27,7 @@ export interface Transaction {
 })
 export class PdfExtract {
   selectedBank: string = '';
+  selectAccountType:string = '';
   typeBank: string='';
   file: File | null = null;
 
@@ -37,6 +36,7 @@ export class PdfExtract {
 
   showTable = false;
   showPasswordField = false;
+  showAccountTypeField = false;
   pdfPassword: string = '';
 
   // 🔹 Totals
@@ -47,18 +47,16 @@ export class PdfExtract {
   // 🔹 Filters
   filters: any = {
     transactionDate: '',
-    valueDate: '',
-    chequeNo: '',
-    voucherName: '',
+    voucherType: '',
     description: '',
-    branch: '',
     debit: '',
     credit: '',
     balance: '',
     remarks: ''
   };
 
-  constructor(private http: HttpClient, private cdr: ChangeDetectorRef) {}
+  constructor(private http: HttpClient, private cdr: ChangeDetectorRef,private authService: Auth, private router: Router) {}
+
 
   // 🔹 Apply Column Filters
   applyColumnFilters() {
@@ -70,6 +68,11 @@ export class PdfExtract {
       });
     });
     this.calculateTotals();
+  }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 
   // 🔹 File Selected
@@ -84,20 +87,36 @@ export class PdfExtract {
     }
   }
 
-  // 🔹 Bank Selected
-  onBankSelected() {
-    // Only show password field if HDFC is selected
-    this.showPasswordField = this.selectedBank === 'HDFC';
+ 
+// 🔹 When bank is selected
+onBankSelected() {
+  // ✅ Show password field only for HDFC or SBI
+  this.showPasswordField = this.selectedBank === 'HDFC' || this.selectedBank === 'SBI';
 
-    if (this.selectedBank && this.file) {
-      this.extractPdf();
-    }
+  // ✅ Show account type dropdown only for ICICI
+  this.showAccountTypeField = this.selectedBank === 'ICICI';
+
+  // ✅ If ICICI requires account type first, wait for user selection
+  if (this.selectedBank !== 'ICICI' && this.file) {
+    this.extractPdf();
   }
+}
+
+  // 🔹 When account type is selected
+onAccountSelected(type: string) {
+  this.selectAccountType = type;
+  console.log('✅ Account Type Selected:', this.selectAccountType);
+
+  // ✅ Trigger extraction only if file & bank are already selected
+  if (this.selectedBank && this.selectAccountType && this.file) {
+    this.extractPdf();
+  }
+}
 
   applyVoucherToFiltered(newValue: string) {
   // Apply value to all filtered rows
   this.filteredTransactions.forEach(txn => {
-    txn.voucherName = newValue;
+    txn.voucherType = newValue;
   });
 
   // Sync with main transactions array
@@ -111,7 +130,7 @@ export class PdfExtract {
 onVoucherEdit(newValue: string) {
   // Apply same value to all filtered rows
   for (let txn of this.filteredTransactions) {
-    txn.voucherName = newValue;
+    txn.voucherType = newValue;
   }
 
   // Update main transactions list
@@ -132,12 +151,13 @@ onVoucherEdit(newValue: string) {
     const formData = new FormData();
     formData.append('file', this.file);
     formData.append('bank', this.selectedBank);
+    formData.append('accountType',this.selectAccountType);
 
     if (this.pdfPassword) {
       formData.append('password', this.pdfPassword);
     }
 
-    this.http.post<any>('http://localhost:8080/api/pdf/extract-json', formData)
+    this.http.post<any>('http://localhost:8080/api/pdf/extracts', formData)
       .subscribe({
         next: (res) => {
           if (res.status === 'success' && res.transactions?.length > 0) {
@@ -168,7 +188,7 @@ onVoucherEdit(newValue: string) {
 
     this.totalDebit = list.reduce((sum, txn) => sum + (Number(txn.debit) || 0), 0);
     this.totalCredit = list.reduce((sum, txn) => sum + (Number(txn.credit) || 0), 0);
-    this.totalAmount = this.totalDebit - this.totalCredit;
+    // this.totalAmount = this.totalDebit - this.totalCredit;
   }
 
  downloadXml() {
@@ -205,7 +225,6 @@ onVoucherEdit(newValue: string) {
     if (!this.selectedBank || !this.transactions || this.transactions.length === 0) return;
 
     const formData = new FormData();
-    formData.append('file', this.typeBank);
     formData.append('bank', this.selectedBank);
 
     const currentTableData = this.filteredTransactions?.length ? this.filteredTransactions : this.transactions;

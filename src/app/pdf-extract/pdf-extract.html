@@ -1,9 +1,11 @@
+<!-- <a routerLink="/pdfextract">PDF Extract</a> -->
+
 <div class="container bg-white p-4 rounded shadow-sm">
   <h4 class="mb-4 text-center text-primary">PDF To XML Extraction</h4>
 
   <div class="row g-2 mb-3 align-items-center">
     <!-- 🔹 Select Bank -->
-    <div class="col-md-4 col-sm-6 mb-2">
+    <div class="col-md-3 col-sm-6 mb-2">
       <select
         class="form-select form-select-sm"
         [(ngModel)]="selectedBank"
@@ -16,11 +18,12 @@
         <option value="INDUSLND">INDUSLND</option>
         <option value="SBI">STATE BANK</option>
         <option value="CITY_UNION">CITY UNION BANK</option>
+        <option value="INDIAN_BANK">INDIAN BANK</option>
       </select>
     </div>
 
     <!-- 🔹 Password Field (Only HDFC) -->
-    <div class="col-md-4 col-sm-6 mb-2" *ngIf="showPasswordField">
+    <div class="col-md-3 col-sm-6 mb-2" *ngIf="showPasswordField">
       <input
         type="password"
         class="form-control form-control-sm"
@@ -28,8 +31,22 @@
         [(ngModel)]="pdfPassword">
     </div>
 
+  <!-- AccountType Field -->
+<div class="col-md-3 col-sm-6 mb-2" *ngIf="showAccountTypeField">
+  <select
+    class="form-select form-select-sm"
+    [(ngModel)]="selectAccountType"
+    name="accountType"
+    (change)="onAccountSelected(selectAccountType)">
+    <option value="" disabled selected hidden>Choose Account Type</option>
+    <option value="SAVING">Saving Account</option>
+    <option value="CURRENT">Current Account</option>
+  </select>
+</div>
+
+
     <!-- 🔹 Upload File -->
-    <div class="col-md-4 col-sm-6 mb-2">
+    <div class="col-md-3 col-sm-6 mb-2">
       <input
         type="file"
         class="form-control form-control-sm"
@@ -37,40 +54,45 @@
         accept=".pdf" />
     </div>
 
-    <div class="col-md-4 col-sm-6 mb-2">
-      <input type="text" class="form-control form-control-sm" [(ngModel)]="typeBank" placeholder="Enter Bank Name">
-      </div>
+    <!-- 🔹 Manual Bank Type -->
+    <div class="col-md-3 col-sm-6 mb-2">
+      <input
+        type="text"
+        class="form-control form-control-sm"
+        [(ngModel)]="typeBank"
+        placeholder="Enter Bank Name">
+    </div>
 
     <!-- 🔹 Download Buttons -->
     <div class="col-md-2 col-sm-6 mb-2">
-     <button class="btn btn-success w-100 btn-sm"
-              (click)="downloadXml()"
-              [disabled]="!showTable">
+      <button
+        class="btn btn-success w-100 btn-sm"
+        (click)="downloadXml()"
+        [disabled]="!showTable">
         TALLY XML
       </button>
-    </div> 
+    </div>
 
-    <!-- <div class="col-md-2 col-sm-6 mb-2">
-      <button class="btn btn-warning w-100 btn-sm text-dark"
-              (click)="downloadExcel()"
-              [disabled]="!showTable">
+    <div class="col-md-2 col-sm-6 mb-2">
+      <button
+        class="btn btn-warning w-100 btn-sm text-dark"
+        (click)="downloadExcel()"
+        [disabled]="!showTable">
         DOWNLOAD EXCEL
       </button>
-    </div> -->
+    </div>
   </div>
 
   <!-- 🔹 Transactions Table -->
   <div *ngIf="showTable" class="mt-4">
     <h5 class="text-center mb-3 text-secondary">Extracted Transaction Data</h5>
 
-    <div class="table-responsive">
-      <table class="table table-hover table-striped table-bordered align-middle text-center">
+    <div class="table-responsive w-100">
+      <table class="table table-hover table-striped table-bordered align-middle text-center w-100">
         <thead class="table-dark">
           <tr>
-            <th>Transaction Date</th>
-            <th>Value Date</th>
-            <th>Cheque No</th>
-            <th>
+            <th style="width: 10%">Date</th>
+            <th style="width: 15%">
               Voucher Type
               <input
                 type="text"
@@ -79,8 +101,7 @@
                 [(ngModel)]="filters.voucherName"
                 (input)="applyColumnFilters()" />
             </th>
-            <th>Ledger Name</th>
-            <th>
+            <th style="width: 35%">
               Description
               <input
                 type="text"
@@ -89,41 +110,31 @@
                 [(ngModel)]="filters.description"
                 (input)="applyColumnFilters()" />
             </th>
-            <th>Branch</th>
-            <th>Debit (₹)</th>
-            <th>Credit (₹)</th>
-            <th>Balance (₹)</th>
+            <th style="width: 10%">Debit (₹)</th>
+            <th style="width: 10%">Credit (₹)</th>
+            <th style="width: 10%">Balance (₹)</th>
           </tr>
         </thead>
 
         <tbody class="table-group-divider">
           <tr *ngFor="let txn of filteredTransactions">
             <td>{{ txn.transactionDate }}</td>
-            <td>{{ txn.valueDate }}</td>
-            <td>{{ txn.chequeNo }}</td>
-
-            <!-- 🔹 Voucher Type editable — updates all filtered rows -->
-          <td>
-  <input
-    type="text"
-    class="form-control form-control-sm"
-    [(ngModel)]="txn.voucherName"
-    (blur)="applyVoucherToFiltered(txn.voucherName)"
-    placeholder="Enter Voucher Type" />
-</td>
-
-            <!-- 🔹 Ledger editable -->
             <td>
               <input
                 type="text"
                 class="form-control form-control-sm"
-                [(ngModel)]="txn.LedgerName"
-                placeholder="Enter Ledger" />
+                [(ngModel)]="txn.voucherType"
+                (blur)="applyVoucherToFiltered(txn.voucherType)"
+                placeholder="Enter Voucher Type" />
             </td>
-
-            <!-- 🔹 Description editable -->
-            <td>{{txn.description}}</td>
-            <td>{{ txn.branchCode }}</td>
+            <td>
+              <!-- <input
+                type="text"
+                class="form-control form-control-sm"
+                [(ngModel)]="txn.LedgerName"
+                placeholder="Enter Ledger" /> -->
+              <div class="text-muted small mt-1">{{ txn.description }}</div>
+            </td>
             <td class="text-danger fw-semibold">{{ txn.debit }}</td>
             <td class="text-success fw-semibold">{{ txn.credit }}</td>
             <td class="fw-bold">{{ txn.balance }}</td>
@@ -132,7 +143,7 @@
 
         <tfoot class="table-dark">
           <tr>
-            <th colspan="7" class="text-end">Grand Total</th>
+            <th colspan="3" class="text-end">Grand Total</th>
             <th class="text-danger fw-semibold">{{ totalDebit | number:'1.2-2' }}</th>
             <th class="text-success fw-semibold">{{ totalCredit | number:'1.2-2' }}</th>
             <th class="fw-bold">{{ totalAmount | number:'1.2-2' }}</th>
@@ -140,4 +151,5 @@
         </tfoot>
       </table>
     </div>
+  </div>
 </div>

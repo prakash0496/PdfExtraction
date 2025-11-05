@@ -1,0 +1,120 @@
+<div class="auth-main">
+  <div class="auth-wrapper v3">
+    <div class="auth-form">
+      <div class="auth-header text-center mb-3">
+        <a href="javascript:void(0)">
+          <img src="assets/images/logo-dark.svg" alt="logo img" />
+        </a>
+      </div>
+
+      <div class="card my-5 shadow-sm">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-end mb-4">
+            <h3 class="mb-0"><b>Sign up</b></h3>
+            <a routerLink="/login" class="link-primary">Already have an account?</a>
+          </div>
+
+          <form (ngSubmit)="onSignup()" #signupForm="ngForm">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group mb-3">
+                  <label class="form-label" for="firstName">First Name*</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="firstName"
+                    placeholder="First Name"
+                    name="firstName"
+                    [(ngModel)]="firstName"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group mb-3">
+                  <label class="form-label" for="lastName">Last Name*</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="lastName"
+                    placeholder="Last Name"
+                    name="lastName"
+                    [(ngModel)]="lastName"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group mb-3">
+              <label class="form-label" for="company">Company</label>
+              <input
+                type="text"
+                class="form-control"
+                id="company"
+                placeholder="Company"
+                name="company"
+                [(ngModel)]="company"
+              />
+            </div>
+
+            <div class="form-group mb-3">
+              <label class="form-label" for="emailAddress">Email Address*</label>
+              <input
+                type="email"
+                class="form-control"
+                id="emailAddress"
+                placeholder="Email Address"
+                name="emailAddress"
+                [(ngModel)]="emailAddress"
+                required
+              />
+            </div>
+
+            <div class="form-group mb-3">
+              <label class="form-label" for="password">Password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="password"
+                placeholder="Password"
+                name="password"
+                [(ngModel)]="password"
+                required
+              />
+            </div>
+
+            <p class="mt-4 text-sm text-muted">
+              By signing up, you agree to our
+              <a href="javascript:void(0)" class="text-primary">Terms of Service</a>
+              and
+              <a href="javascript:void(0)" class="text-primary">Privacy Policy</a>.
+            </p>
+
+            <div class="d-grid mt-3">
+              <button type="submit" class="btn btn-primary">Create Account</button>
+            </div>
+          </form>
+
+          <div class="saprator mt-4 text-center">
+            <span>Sign up with</span>
+          </div>
+
+          <div class="row mt-3">
+            <ng-container *ngFor="let item of SignUpOptions">
+              <div class="col-4">
+                <div class="d-grid">
+                  <button type="button" class="btn mt-2 btn-light bg-light text-muted">
+                    <img [src]="item.image" alt="{{ item.name }} logo" />
+                    <span class="d-none d-sm-inline-block ms-1">{{ item.name }}</span>
+                  </button>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

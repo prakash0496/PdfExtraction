@@ -1,17 +1,15 @@
-import { Component, signal } from '@angular/core';
-import { Navbar } from './navbar/navbar';
-import { PdfExtract } from './pdf-extract/pdf-extract';
-import { TableData } from './table-data/table-data';
-import { HttpClientModule } from '@angular/common/http';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { Navbar } from './navbar/navbar';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [Navbar, PdfExtract, TableData, HttpClientModule,RouterOutlet], // ✅ RouterOutlet removed
+  imports: [
+    RouterOutlet,
+    Navbar
+  ],
   templateUrl: './app.html',
   styleUrls: ['./app.css']
 })
-export class App {
-  protected readonly title = signal('PdfExtract');
-}
+export class App {}

@@ -27,3 +27,17 @@ h4 {
   overflow-x: auto; /* allow scroll */
   cursor: default;  /* prevent left/right resize cursor */
 }
+.table th,
+.table td {
+  vertical-align: middle !important;
+}
+
+.table input.form-control-sm {
+  text-align: center;
+  font-size: 0.85rem;
+}
+
+.table tfoot th {
+  font-size: 0.9rem;
+  text-align: right;
+}
