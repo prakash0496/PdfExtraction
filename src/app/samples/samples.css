@@ -1,0 +1,15 @@
+
+.card img {
+  height: 430px;
+  width: 400px;
+ 
+  transition: transform 0.3s ease;
+}
+
+.card img:hover {
+  transform: scale(1.05);
+}
+
+.card {
+  margin-bottom: 20px; /* extra vertical space */
+}

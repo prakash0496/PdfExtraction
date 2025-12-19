@@ -5,7 +5,8 @@ import { Injectable } from '@angular/core';
 })
 export class Auth {
 
-  // Hardcoded users
+  private readonly SESSION_DURATION = 30 * 60 * 1000; // 30 minutes
+
   private readonly users = [
     { username: 'tallybalaji.k@gmail.com', password: 'Balaji@123' },
     { username: 'admin', password: 'abc123' },
@@ -16,7 +17,7 @@ export class Auth {
   constructor() {}
 
   login(username: string, password: string): boolean {
-    // Check if valid user
+
     const foundUser = this.users.find(
       user => user.username === username && user.password === password
     );
@@ -26,27 +27,28 @@ export class Auth {
       return false;
     }
 
-    // Check if this username is already logged in (from any browser)
     const activeUsers = JSON.parse(localStorage.getItem('activeUsers') || '{}');
 
-    if (activeUsers[username] && activeUsers[username] === true) {
+    if (activeUsers[username]) {
       alert(`⚠️ User "${username}" is already logged in on another device or tab.`);
       return false;
     }
 
-    // Mark this user as logged in
+    // Mark user active
     activeUsers[username] = true;
     localStorage.setItem('activeUsers', JSON.stringify(activeUsers));
 
-    // Also mark session info
+    // Store session info
     localStorage.setItem('loggedIn', 'true');
     localStorage.setItem('username', username);
+    localStorage.setItem('loginTime', Date.now().toString());
 
     return true;
   }
 
   logout(): void {
     const username = localStorage.getItem('username');
+
     if (username) {
       const activeUsers = JSON.parse(localStorage.getItem('activeUsers') || '{}');
       delete activeUsers[username];
@@ -55,9 +57,26 @@ export class Auth {
 
     localStorage.removeItem('loggedIn');
     localStorage.removeItem('username');
+    localStorage.removeItem('loginTime');
   }
 
   isLoggedIn(): boolean {
+    const loginTime = localStorage.getItem('loginTime');
+
+    if (!loginTime) {
+      return false;
+    }
+
+    const now = Date.now();
+    const elapsed = now - Number(loginTime);
+
+    // ⏰ Session expired
+    if (elapsed > this.SESSION_DURATION) {
+      alert('⏰ Session expired. Please login again.');
+      this.logout();
+      return false;
+    }
+
     return localStorage.getItem('loggedIn') === 'true';
   }
 
