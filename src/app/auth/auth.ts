@@ -1,63 +1,67 @@
 import { Injectable } from '@angular/core';
-import { Observable,tap } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class Auth {
 
-   private baseUrl = 'http://localhost:8080/api/tally'; // 🔹 your backend API base URL
-
-     constructor(private http: HttpClient) {}
-
-
-// 🔹 Multiple hardcoded users
+  // Hardcoded users
   private readonly users = [
-    { username: 'admin', password: '12345' },
-    { username: 'user1', password: 'abc123' },
-    { username: 'manager', password: 'pass@123' },
-    { username: 'zeal', password: 'zeal123' }
+    { username: 'tallybalaji.k@gmail.com', password: 'Balaji@123' },
+    { username: 'admin', password: 'abc123' },
+    { username: 'users', password: 'pass@123' },
+    { username: 'zealglobe', password: 'zeal@123' }
   ];
 
-  // login(username: string, password: string): Observable<any> {
-  //   const body={username,password};
-  //   return this.http.post(`${this.baseUrl}/verify`, body).pipe(
-  //       tap((response: any) => {
-  //       // if backend sends a token or success flag
-  //       if (response.success) {
-  //         localStorage.setItem('loggedIn', 'true');
-  //         // optionally store JWT token
-  //         // localStorage.setItem('token', response.token);
-  //       }
-  //     })
-  //   );
-login(username: string, password: string): boolean {
-    // 🔹 Check if any user matches the given credentials
+  constructor() {}
+
+  login(username: string, password: string): boolean {
+    // Check if valid user
     const foundUser = this.users.find(
       user => user.username === username && user.password === password
     );
 
-    if (foundUser) {
-      localStorage.setItem('loggedIn', 'true');
-      localStorage.setItem('username', foundUser.username); // optional
-      return true;
+    if (!foundUser) {
+      alert('❌ Invalid username or password');
+      return false;
     }
 
-    return false;
+    // Check if this username is already logged in (from any browser)
+    const activeUsers = JSON.parse(localStorage.getItem('activeUsers') || '{}');
+
+    if (activeUsers[username] && activeUsers[username] === true) {
+      alert(`⚠️ User "${username}" is already logged in on another device or tab.`);
+      return false;
+    }
+
+    // Mark this user as logged in
+    activeUsers[username] = true;
+    localStorage.setItem('activeUsers', JSON.stringify(activeUsers));
+
+    // Also mark session info
+    localStorage.setItem('loggedIn', 'true');
+    localStorage.setItem('username', username);
+
+    return true;
   }
 
-  logout() {
+  logout(): void {
+    const username = localStorage.getItem('username');
+    if (username) {
+      const activeUsers = JSON.parse(localStorage.getItem('activeUsers') || '{}');
+      delete activeUsers[username];
+      localStorage.setItem('activeUsers', JSON.stringify(activeUsers));
+    }
+
     localStorage.removeItem('loggedIn');
+    localStorage.removeItem('username');
   }
 
   isLoggedIn(): boolean {
     return localStorage.getItem('loggedIn') === 'true';
   }
 
-   getCurrentUser(): string | null {
+  getCurrentUser(): string | null {
     return localStorage.getItem('username');
   }
-
-  
 }
