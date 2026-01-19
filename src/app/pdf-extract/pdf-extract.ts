@@ -156,7 +156,7 @@ onVoucherEdit(newValue: string) {
     if (this.pdfPassword) {
       formData.append('password', this.pdfPassword);
     }
-
+  /*  this.http.post<any>('http://localhost:8080/api/pdf/extracts', formData) */
     this.http.post<any>('https://pdftoexcel-latest.onrender.com/api/pdf/extracts', formData)
       .subscribe({
         next: (res) => {
@@ -203,7 +203,8 @@ onVoucherEdit(newValue: string) {
   formData.append('bankName', this.typeBank);
   formData.append('tableData', JSON.stringify(this.transactions));
 
-  this.http.post('https://pdftoexcel-latest.onrender.com/api/pdf/extract/tallyxml', formData, {
+  this.http.post('http://localhost:8080/api/pdf/extract/tallyxml', formData, { 
+/*  this.http.post('https://pdftoexcel-latest.onrender.com/api/pdf/extract/tallyxml', formData, { */
     responseType: 'blob'
   }).subscribe({
     next: (res: Blob) => {
