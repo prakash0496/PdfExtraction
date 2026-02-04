@@ -14,7 +14,7 @@ export interface Transaction {
   credit: string;
   balance: string;
   voucherType: string;
-  LedgerName: string;
+  ledgerName: string;
   [key: string]: any;
 }
 
@@ -91,7 +91,7 @@ export class PdfExtract {
 // 🔹 When bank is selected
 onBankSelected() {
   // ✅ Show password field only for HDFC or SBI
-  this.showPasswordField = this.selectedBank === 'HDFC' || this.selectedBank === 'SBI';
+  this.showPasswordField = this.selectedBank === 'HDFC' || this.selectedBank === 'SBI' || this.selectedBank === 'KVB';
 
   // ✅ Show account type dropdown only for ICICI
   this.showAccountTypeField = this.selectedBank === 'ICICI';
@@ -113,18 +113,11 @@ onAccountSelected(type: string) {
   }
 }
 
-  applyVoucherToFiltered(newValue: string) {
-  // Apply value to all filtered rows
-  this.filteredTransactions.forEach(txn => {
-    txn.voucherType = newValue;
-  });
-
-  // Sync with main transactions array
-  this.transactions = this.transactions.map(txn => {
-    const match = this.filteredTransactions.find(f => f === txn);
-    return match ? { ...match } : txn;
-  });
+onVoucherEdits(newValue: string) {
+  // value is already updated via ngModel
+  this.applyColumnFilters();
 }
+
 
   // When user edits voucher type in one of the filtered rows
 onVoucherEdit(newValue: string) {
@@ -156,8 +149,8 @@ onVoucherEdit(newValue: string) {
     if (this.pdfPassword) {
       formData.append('password', this.pdfPassword);
     }
-  /*  this.http.post<any>('http://localhost:8080/api/pdf/extracts', formData) */
-    this.http.post<any>('https://pdftoexcel-latest.onrender.com/api/pdf/extracts', formData)
+    this.http.post<any>('http://localhost:8080/api/pdf/extracts', formData) 
+  /*  this.http.post<any>('https://pdftoexcel-latest.onrender.com/api/pdf/extracts', formData) */
       .subscribe({
         next: (res) => {
           if (res.status === 'success' && res.transactions?.length > 0) {
@@ -203,8 +196,8 @@ onVoucherEdit(newValue: string) {
   formData.append('bankName', this.typeBank);
   formData.append('tableData', JSON.stringify(this.transactions));
 
-/*  this.http.post('http://localhost:8080/api/pdf/extract/tallyxml', formData, {  */
-  this.http.post('https://pdftoexcel-latest.onrender.com/api/pdf/extract/tallyxml', formData, { 
+  this.http.post('http://localhost:8080/api/pdf/extract/tallyxml', formData, {  
+/*  this.http.post('https://pdftoexcel-latest.onrender.com/api/pdf/extract/tallyxml', formData, { */
     responseType: 'blob'
   }).subscribe({
     next: (res: Blob) => {

@@ -11,7 +11,7 @@
         [(ngModel)]="selectedBank"
         (change)="onBankSelected()">
         <option value="" disabled selected hidden>Choose Bank</option>
-        <option value="KVB">KARUR VYSYA</option>
+       <!-- <option value="KVB">KARUR VYSYA</option> -->
         <option value="CANARA">CANARA</option>
         <option value="FEDERAL">FEDERAL</option>
         <option value="ICICI">ICICI</option>
@@ -19,6 +19,7 @@
         <option value="SBI">STATE BANK</option>
         <option value="CITY_UNION">CITY UNION BANK</option>
         <option value="INDIAN_BANK">INDIAN BANK</option>
+        <option value="IDBI">IDBI</option>
       </select>
     </div>
 
@@ -101,6 +102,7 @@
                 [(ngModel)]="filters.voucherType"
                 (input)="applyColumnFilters()" />
             </th>
+            <th style="width:10%">LedgerName</th>
             <th style="width: 35%">
               Description
               <input
@@ -120,19 +122,19 @@
           <tr *ngFor="let txn of filteredTransactions">
             <td>{{ txn.transactionDate }}</td>
             <td>
-              <input
-                type="text"
-                class="form-control form-control-sm"
-                [(ngModel)]="txn.voucherType"
-                (blur)="applyVoucherToFiltered(txn.voucherType)"
-                placeholder="Enter Voucher Type" />
+        <input
+  type="text"
+  class="form-control form-control-sm"
+  [(ngModel)]="txn.voucherType"
+  (blur)="onVoucherEdits(txn.voucherType)"
+  placeholder="Enter Voucher Type" />
             </td>
-            <td>
-              <!-- <input
+            <td><input
                 type="text"
                 class="form-control form-control-sm"
-                [(ngModel)]="txn.LedgerName"
-                placeholder="Enter Ledger" /> -->
+                [(ngModel)]="txn.ledgerName"
+                placeholder="Enter Ledger" /> 
+             <td>   
               <div class="text-muted small mt-1">{{ txn.description }}</div>
             </td>
             <td class="text-danger fw-semibold">{{ txn.debit }}</td>
