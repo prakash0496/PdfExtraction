@@ -13,7 +13,8 @@ export class Auth {
     { username: 'users', password: 'pass@123' },
     { username: 'zealglobe', password: 'zeal@123' },
     { username: 'MohanRajBTC',password: 'Mohan@BTC'},
-    { username: 'Thangarajsuntech',password:'Suntech@123'}
+    { username: 'Thangarajsuntech',password:'Suntech@123'},
+    { username: 'PriyangaBTC',password:'BTC@2526'}
   ];
 
   constructor() {}
