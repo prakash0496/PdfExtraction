@@ -61,7 +61,7 @@
         type="text"
         class="form-control form-control-sm"
         [(ngModel)]="typeBank"
-        placeholder="Enter Bank Name">
+        placeholder="Enter Ledger Name">
     </div>
 
     <!-- 🔹 Download Buttons -->
@@ -102,7 +102,7 @@
                 [(ngModel)]="filters.voucherType"
                 (input)="applyColumnFilters()" />
             </th>
-            <th style="width:10%">LedgerName</th>
+            <!-- <th style="width:10%">LedgerName</th> */ -->
             <th style="width: 35%">
               Description
               <input
@@ -129,12 +129,12 @@
   (blur)="onVoucherEdits(txn.voucherType)"
   placeholder="Enter Voucher Type" />
             </td>
-            <td><input
+            <!-- <td><input
                 type="text"
                 class="form-control form-control-sm"
                 [(ngModel)]="txn.ledgerName"
-                placeholder="Enter Ledger" /> 
-             <td>   
+                placeholder="Enter Ledger" /> -->
+             <td>    
               <div class="text-muted small mt-1">{{ txn.description }}</div>
             </td>
             <td class="text-danger fw-semibold">{{ txn.debit }}</td>
