@@ -16,7 +16,8 @@ export class Auth {
     { username: 'Thangarajsuntech',password:'Suntech@123'},
     { username: 'PriyangaBTC',password:'BTC@2526'},
     { username: 'Srinivasan',password:'Sarvasri@123'},
-    { username: 'Balamurugan',password:'Bala@123'}
+    { username: 'Balamurugan',password:'Bala@123'},
+    {username : 'Uma@BTC',password:'Uma@123'}
   ];
 
   constructor() {}
