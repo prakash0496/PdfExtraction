@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 export class Auth {
 
   private loginUrl = 'https://pdftoexcel-latest.onrender.com/api/auth/login';
-  private checkUrl = 'http://localhost:8080/api/auth/check';
+  /*private checkUrl = 'http://localhost:8080/api/auth/check'; */
 
   constructor(private http: HttpClient) {}
 
@@ -22,20 +22,20 @@ export class Auth {
 
   logout(): Observable<any> {
     return this.http.post(
-      'http://localhost:8080/api/auth/logout',
+      'https://pdftoexcel-latest.onrender.com/api/auth/logout',
       {},
       { withCredentials: true }
     );
   }
 
-  isLoggedIn(): Observable<boolean> {
+  /*isLoggedIn(): Observable<boolean> {
     return this.http.get<boolean>(
       this.checkUrl,
       { withCredentials: true }
-    );
-  }
+    ); 
+  } */
 
-}
+} 
 
   /*
   private readonly SESSION_DURATION = 30 * 60 * 1000; // 30 minutes
