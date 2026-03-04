@@ -57,6 +57,10 @@ export class PdfExtract {
 
   constructor(private http: HttpClient, private cdr: ChangeDetectorRef,private authService: Auth, private router: Router) {}
 
+  goToSamples() {
+  this.router.navigate(['/samples']);
+}
+
 
   // 🔹 Apply Column Filters
   applyColumnFilters() {
@@ -91,7 +95,7 @@ export class PdfExtract {
 // 🔹 When bank is selected
 onBankSelected() {
   // ✅ Show password field only for HDFC or SBI
-  this.showPasswordField = this.selectedBank === 'HDFC' || this.selectedBank === 'SBI' || this.selectedBank === 'KVB';
+  this.showPasswordField = this.selectedBank === 'HDFC' || this.selectedBank === 'SBI' || this.selectedBank === 'KVB' || this.selectedBank ==='KOTAK' || this.selectedBank ==='TMB'/* || this.selectedBank ==='INDIAN_BANK'; */
 
   // ✅ Show account type dropdown only for ICICI
   this.showAccountTypeField = this.selectedBank === 'ICICI';
@@ -242,5 +246,7 @@ onVoucherEdit(newValue: string) {
       error: (err) => console.error('Excel download error:', err)
     });
   }
+
+  
 }
 

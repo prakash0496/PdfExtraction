@@ -41,3 +41,34 @@ h4 {
   font-size: 0.9rem;
   text-align: right;
 }
+
+.navbar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 15px 20px;
+  background-color: #f8f9fa;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.nav-right button {
+  margin-left: 10px;
+}
+.nav-right {
+  display: flex;
+  align-items: center;
+}
+
+.nav-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.nav-left {
+  width: 120px;   /* same width as right side (approx) */
+}
+
+.logo-img {
+  height: 40px;
+  width: 250px;
+}

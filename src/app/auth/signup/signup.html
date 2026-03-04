@@ -1,11 +1,11 @@
 <div class="auth-main">
   <div class="auth-wrapper v3">
     <div class="auth-form">
-      <div class="auth-header text-center mb-3">
-        <a href="javascript:void(0)">
-          <img src="assets/images/logo-dark.svg" alt="logo img" />
-        </a>
-      </div>
+      <div class="auth-header d-flex justify-content-center align-items-center" style="height: 150px;">
+  <a href="javascript:void(0)">
+    <img src="assets/samples/cmplogo.jpeg" alt="logo img" class="logo-img" />
+  </a>
+</div>
 
       <div class="card my-5 shadow-sm">
         <div class="card-body">
@@ -25,7 +25,7 @@
                     id="firstName"
                     placeholder="First Name"
                     name="firstName"
-                    [(ngModel)]="firstName"
+                    [(ngModel)]="firstname"
                     required
                   />
                 </div>
@@ -33,14 +33,14 @@
 
               <div class="col-md-6">
                 <div class="form-group mb-3">
-                  <label class="form-label" for="lastName">Last Name*</label>
+                  <label class="form-label" for="lastname">Last Name*</label>
                   <input
                     type="text"
                     class="form-control"
                     id="lastName"
                     placeholder="Last Name"
                     name="lastName"
-                    [(ngModel)]="lastName"
+                    [(ngModel)]="lastname"
                     required
                   />
                 </div>
@@ -67,7 +67,20 @@
                 id="emailAddress"
                 placeholder="Email Address"
                 name="emailAddress"
-                [(ngModel)]="emailAddress"
+                [(ngModel)]="email_ids"
+                required
+              />
+            </div>
+
+            <div class="form-group mb-3">
+              <label class="form-label" for="password">UserName</label>
+              <input
+                type="username"
+                class="form-control"
+                id="username"
+                placeholder="UserName"
+                name="username"
+                [(ngModel)]="username"
                 required
               />
             </div>
@@ -97,11 +110,11 @@
             </div>
           </form>
 
-          <div class="saprator mt-4 text-center">
+          <!-- <div class="saprator mt-4 text-center">
             <span>Sign up with</span>
-          </div>
+          </div> -->
 
-          <div class="row mt-3">
+          <!-- <div class="row mt-3">
             <ng-container *ngFor="let item of SignUpOptions">
               <div class="col-4">
                 <div class="d-grid">
@@ -112,7 +125,7 @@
                 </div>
               </div>
             </ng-container>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>

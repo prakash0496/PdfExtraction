@@ -7,7 +7,7 @@ import { Navbar } from './navbar/navbar';
   standalone: true,
   imports: [
     RouterOutlet,
-    Navbar
+    // Navbar
   ],
   templateUrl: './app.html',
   styleUrls: ['./app.css']

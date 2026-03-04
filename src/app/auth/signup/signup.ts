@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-signup',
@@ -13,33 +14,46 @@ import { RouterModule } from '@angular/router';
 export class Signup {
 
   // 🔹 Form fields
-  firstName = '';
-  lastName = '';
+  firstname = '';
+  lastname = '';
   company = '';
-  emailAddress = '';
+  email_ids = '';
+  username = '';
   password = '';
 
-  // 🔹 Social signup options (example)
-  SignUpOptions = [
-    { name: 'Google', image: 'assets/images/authentication/google.svg' },
-    { name: 'Facebook', image: 'assets/images/authentication/facebook.svg' },
-    { name: 'Twitter', image: 'assets/images/authentication/twitter.svg' }
-  ];
+  constructor(private http: HttpClient, private router: Router) {}
 
   // 🔹 Signup handler
   onSignup() {
-    console.log('📝 Signup details:');
-    console.log('First Name:', this.firstName);
-    console.log('Last Name:', this.lastName);
-    console.log('Company:', this.company);
-    console.log('Email:', this.emailAddress);
-    console.log('Password:', this.password);
 
-    if (!this.firstName || !this.lastName || !this.emailAddress || !this.password) {
+    // Validation
+    if (!this.firstname || !this.lastname || !this.email_ids || !this.username || !this.password) {
       alert('Please fill in all required fields.');
       return;
     }
 
-    alert('✅ Account created successfully!');
+    const payload = {
+      firstname: this.firstname,
+      lastname: this.lastname,
+      company: this.company,
+      email_ids: this.email_ids,
+      username: this.username,
+      password: this.password
+    };
+
+    console.log("📤 Sending data to backend:", payload);
+
+    this.http.post('http://localhost:8080/api/auth/register', payload)
+      .subscribe({
+        next: (response) => {
+          console.log("✅ User saved:", response);
+          alert("Account created successfully!");
+          this.router.navigate(['/login']);   // redirect to login page
+        },
+        error: (error) => {
+          console.error("❌ Error:", error);
+          alert("Registration failed. Please try again.");
+        }
+      });
   }
 }

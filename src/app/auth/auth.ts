@@ -1,10 +1,43 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class Auth {
 
+  private loginUrl = 'https://pdftoexcel-latest.onrender.com/api/auth/login';
+  private checkUrl = 'http://localhost:8080/api/auth/check';
+
+  constructor(private http: HttpClient) {}
+
+  login(username: string, password: string): Observable<any> {
+    return this.http.post(
+      this.loginUrl,
+      { username, password },
+      { withCredentials: true }
+    );
+  }
+
+  logout(): Observable<any> {
+    return this.http.post(
+      'http://localhost:8080/api/auth/logout',
+      {},
+      { withCredentials: true }
+    );
+  }
+
+  isLoggedIn(): Observable<boolean> {
+    return this.http.get<boolean>(
+      this.checkUrl,
+      { withCredentials: true }
+    );
+  }
+
+}
+
+  /*
   private readonly SESSION_DURATION = 30 * 60 * 1000; // 30 minutes
 
   private readonly users = [
@@ -89,4 +122,4 @@ export class Auth {
   getCurrentUser(): string | null {
     return localStorage.getItem('username');
   }
-}
+} */

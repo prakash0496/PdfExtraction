@@ -16,14 +16,17 @@ export class Login {
 
   constructor(private authService: Auth, private router: Router) {}
 
-  onLogin() {
-    if (this.authService.login(this.username, this.password)) {
-      this.router.navigate(['/pdfextract']);
-
-    } else {
-      alert('Invalid credentials');
-    }
-  }
+ onLogin() {
+  this.authService.login(this.username, this.password)
+    .subscribe({
+      next: () => {
+        this.router.navigate(['/pdfextract']);
+      },
+      error: () => {
+        alert('❌ Invalid username or password');
+      }
+    });
+}
   onSignUp() {
     // ✅ Redirect to signup page
     this.router.navigate(['/signup']);

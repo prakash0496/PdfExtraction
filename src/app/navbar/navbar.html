@@ -1,4 +1,4 @@
-<nav *ngIf="authService.isLoggedIn() && !isLoginPage"
+<nav *ngIf="authService.isLoggedIn() && !!hideNavbar"
      class="navbar navbar-expand-lg navbar-dark bg-dark">
 
   <div class="container-fluid d-flex justify-content-between align-items-center">
@@ -9,7 +9,7 @@
         ZEAL GLOBE TECHNOLOGIES
       </h2>
     </div>
-
+ 
     <!-- Right Side Buttons -->
     <div class="text-end">
       <button class="btn btn-primary me-2" (click)="goToSamples()">

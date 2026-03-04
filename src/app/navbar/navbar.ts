@@ -12,14 +12,18 @@ import { CommonModule } from '@angular/common';
 })
 export class Navbar {
 
-  isLoginPage = false;
+  hideNavbar = false;
 
   constructor(public authService: Auth, private router: Router) {
 
-    // ✅ MOVE THIS INSIDE CONSTRUCTOR
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        this.isLoginPage = event.urlAfterRedirects === '/login';
+
+        const currentUrl = event.urlAfterRedirects;
+
+        // 🔹 Hide on login and register pages
+        this.hideNavbar = currentUrl === '/login' || currentUrl === '/signup';
+
       }
     });
 

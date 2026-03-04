@@ -1,16 +1,14 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 
 export interface Transaction {
-  transactionDate: string;
-  valueDate: string;
-  chequeNo: string;
+  firstname: string;
+  lastname: string;
+  company: string;
+  email_ids:string;
   branch: string;
-  description: string;
-  debit: string;
-  credit: string;
-  balance: string;
-  voucherName: string;
+ 
 }
 
 @Component({
@@ -20,21 +18,26 @@ export interface Transaction {
   templateUrl: './table-data.html',
   styleUrls: ['./table-data.css']
 })
-export class TableData implements OnChanges {
-  @Input() transactions: Transaction[] = [];
-  totalDebit: number = 0;
-  totalCredit: number = 0;
-  totalAmount: number = 0;
+export class TableData implements OnInit  {
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['transactions'] && this.transactions.length > 0) {
-      this.calculateTotals();
-    }
+  users: Transaction[] = [];
+
+  constructor(private http: HttpClient) {}
+
+  ngOnInit(): void {
+    this.fetchUsers();
   }
 
-  calculateTotals() {
-    this.totalDebit = this.transactions.reduce((sum, txn) => sum + (Number(txn.debit) || 0), 0);
-    this.totalCredit = this.transactions.reduce((sum, txn) => sum + (Number(txn.credit) || 0), 0);
-    this.totalAmount = this.totalDebit - this.totalCredit;
+  fetchUsers() {
+    this.http.get<Transaction[]>('http://localhost:8080/api/users/all')
+      .subscribe({
+        next: (response) => {
+          console.log('Fetched Users:', response);
+          this.users = response;
+        },
+        error: (error) => {
+          console.error('Error fetching users:', error);
+        }
+      });
   }
 }

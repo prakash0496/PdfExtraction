@@ -1,5 +1,23 @@
 <!-- <a routerLink="/pdfextract">PDF Extract</a> -->
 
+<nav class="navbar">
+  
+  <!-- Empty left space (for balance) -->
+  <div class="nav-left"></div>
+
+  <!-- Center Logo -->
+  <div class="nav-center">
+    <img src="assets/samples/cmplogo.jpeg" alt="logo img" class="logo-img" />
+  </div>
+
+  <!-- Right Buttons -->
+  <div class="nav-right">
+    <button class="btn btn-outline-primary me-2" (click)="goToSamples()">Samples</button>
+    <button class="btn btn-danger" (click)="logout()">Logout</button>
+  </div>
+
+</nav>
+
 <div class="container bg-white p-4 rounded shadow-sm">
   <h4 class="mb-4 text-center text-primary">PDF To XML Extraction</h4>
 
@@ -20,6 +38,10 @@
         <option value="CITY_UNION">CITY UNION BANK</option>
         <option value="INDIAN_BANK">INDIAN BANK</option>
         <option value="IDBI">IDBI</option>
+        <option value="EQUITAS">EQUITAS BANK</option>
+        <!-- <option value="TMB"> TMB</option> -->
+        <option value="KOTAK">KOTAK</option>
+        <option value="AXIS">AXIS BANK</option>
       </select>
     </div>
 
