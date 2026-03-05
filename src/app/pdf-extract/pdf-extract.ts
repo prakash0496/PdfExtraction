@@ -201,7 +201,7 @@ onVoucherEdit(newValue: string) {
   formData.append('tableData', JSON.stringify(this.transactions));
 
  /* this.http.post('http://localhost:8080/api/pdf/extract/tallyxml', formData, {  */
-  this.http.post('https://pdftoexcel-latest.onrender.com/api/pdf/tallyxml', formData, { 
+  this.http.post('https://pdftoexcel-latest.onrender.com/api/pdf/extract/tallyxml', formData, { 
     responseType: 'blob'
   }).subscribe({
     next: (res: Blob) => {
