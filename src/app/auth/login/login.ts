@@ -1,34 +1,72 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { Auth } from '../auth';
+import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
-  standalone: true, // ✅ very important for standalone components
-  imports: [FormsModule], // ✅ required for [(ngModel)]
+  standalone: true,
+  imports: [FormsModule, CommonModule, RouterModule],
   templateUrl: './login.html',
-  styleUrls: ['./login.css'] // ✅ fixed plural
+  styleUrls: ['./login.css']
 })
 export class Login {
+
   username = '';
   password = '';
+  showPassword = false;
+  selectedFile!: File;
 
-  constructor(private authService: Auth, private router: Router) {}
+  constructor(
+    private router: Router,
+    private http: HttpClient
+  ) {}
 
- onLogin() {
-  this.authService.login(this.username, this.password)
-    .subscribe({
-      next: () => {
-        this.router.navigate(['/pdfextract']);
-      },
-      error: () => {
-        alert('❌ Invalid username or password');
-      }
-    });
-}
+  // 👁 Toggle password
+  togglePassword() {
+    this.showPassword = !this.showPassword;
+  }
+
+  // 📁 File select
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0];
+  }
+
+  // 🔐 Login with license file
+  onLogin() {
+
+    if (!this.selectedFile) {
+      alert("Please select license file");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("username", this.username);
+    formData.append("password", this.password);
+   /* formData.append("file", this.selectedFile); */
+
+    this.http.post<any>("https://pdftoexcel-latest.onrender.com/api/auth/login", formData) 
+      .subscribe({
+        next: (res) => {
+
+          if (res.success) {
+            alert("✅ Login successful");
+            this.router.navigate(['/pdfextract']);
+          } else {
+            alert("❌ " + res.message);
+          }
+
+        },
+        error: () => {
+          alert("❌ Login failed");
+        }
+      });
+  }
+
+  // 🔁 Go to signup
   onSignUp() {
-    // ✅ Redirect to signup page
     this.router.navigate(['/signup']);
   }
+
 }
