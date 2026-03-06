@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <div class="auth-main">
   <div class="auth-wrapper v3">
     <div class="auth-form">
@@ -72,6 +73,19 @@
               />
             </div>
 
+             <!-- <div class="form-group mb-3">
+              <label class="form-label" for="serialNumber">Serial Number*</label>
+              <input
+                type="serialNumber"
+                class="form-control"
+                id="serialNumber"
+                placeholder="serialNumber"
+                name="serialNumber"
+                [(ngModel)]="serialNumber"
+                required
+              />
+            </div> -->
+
             <div class="form-group mb-3">
               <label class="form-label" for="password">UserName</label>
               <input
@@ -85,18 +99,26 @@
               />
             </div>
 
-            <div class="form-group mb-3">
-              <label class="form-label" for="password">Password</label>
-              <input
-                type="password"
-                class="form-control"
-                id="password"
-                placeholder="Password"
-                name="password"
-                [(ngModel)]="password"
-                required
-              />
-            </div>
+      <div class="form-group mb-3">
+  <label class="form-label" for="password">Password</label>
+
+  <div class="input-group">
+    <input
+      [type]="showPassword ? 'text' : 'password'"
+      class="form-control"
+      id="password"
+      placeholder="Password"
+      name="password"
+      [(ngModel)]="password"
+      required
+    />
+
+    <span class="input-group-text" (click)="togglePassword()" style="cursor:pointer;">
+      <i class="fa" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+    </span>
+  </div>
+
+</div>
 
             <p class="mt-4 text-sm text-muted">
               By signing up, you agree to our

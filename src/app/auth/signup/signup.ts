@@ -18,10 +18,16 @@ export class Signup {
   lastname = '';
   company = '';
   email_ids = '';
+  serialNumber = '';
   username = '';
   password = '';
+  showPassword = false;
 
   constructor(private http: HttpClient, private router: Router) {}
+
+  togglePassword() {
+  this.showPassword = !this.showPassword;
+}
 
   // 🔹 Signup handler
   onSignup() {
@@ -37,13 +43,15 @@ export class Signup {
       lastname: this.lastname,
       company: this.company,
       email_ids: this.email_ids,
+      serialNumber:this.serialNumber,
       username: this.username,
       password: this.password
     };
 
     console.log("📤 Sending data to backend:", payload);
 
-    this.http.post('https://pdftoexcel-latest.onrender.com/api/auth/register', payload)
+    this.http.post('https://pdftoexcel-latest.onrender.com/api/auth/register', payload) 
+    /*this.http.post('http://localhost:8080/api/auth/register', payload)*/
       .subscribe({
         next: (response) => {
           console.log("✅ User saved:", response);

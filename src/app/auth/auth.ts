@@ -12,17 +12,18 @@ export class Auth {
 
   constructor(private http: HttpClient) {}
 
-  login(username: string, password: string): Observable<any> {
-    return this.http.post(
+  login(username: string, password: string,file: File): Observable<any> {
+    return this.http.post (
       this.loginUrl,
-      { username, password },
+      { username, password, file },
       { withCredentials: true }
     );
   }
 
   logout(): Observable<any> {
     return this.http.post(
-      'https://pdftoexcel-latest.onrender.com/api/auth/logout',
+       'https://pdftoexcel-latest.onrender.com/api/auth/logout', 
+      /* 'http://localhost:8080/api/auth/logout', */
       {},
       { withCredentials: true }
     );
