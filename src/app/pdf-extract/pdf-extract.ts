@@ -95,7 +95,7 @@ export class PdfExtract {
 // 🔹 When bank is selected
 onBankSelected() {
   // ✅ Show password field only for HDFC or SBI
-  this.showPasswordField = this.selectedBank === 'HDFC' || this.selectedBank === 'SBI' || this.selectedBank === 'KVB' || this.selectedBank ==='KOTAK' || this.selectedBank ==='TMB'/* || this.selectedBank ==='INDIAN_BANK'; */
+  this.showPasswordField = this.selectedBank === 'HDFC' || this.selectedBank === 'SBI' || this.selectedBank === 'KVB' || this.selectedBank ==='KOTAK' || this.selectedBank ==='TMB' || this.selectedBank ==='CITY_UNION'; 
 
   // ✅ Show account type dropdown only for ICICI
   this.showAccountTypeField = this.selectedBank === 'ICICI';
