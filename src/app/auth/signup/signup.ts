@@ -52,8 +52,8 @@ export class Signup {
 
     console.log("📤 Sending data to backend:", payload);
 
-    /*this.http.post('https://pdftoexcel-latest.onrender.com/api/auth/register', payload) */
-    this.http.post('http://localhost:8080/api/auth/register', payload)
+    this.http.post('https://pdftoexcel-latest.onrender.com/api/auth/register', payload) 
+  /*  this.http.post('http://localhost:8080/api/auth/register', payload) */
       .subscribe({
         next: (response) => {
           console.log("✅ User saved:", response);

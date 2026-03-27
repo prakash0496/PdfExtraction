@@ -32,8 +32,10 @@ export class ForgetLogin {
       alert("Enter username");
       return;
     }
+  
 
-    this.http.get<any>(`http://localhost:8080/api/auth/check-user?username=${this.username}`)
+   /* this.http.get<any>(`http://localhost:8080/api/auth/check-user?username=${this.username}`) */
+    this.http.get<any>(`https://pdftoexcel-latest.onrender.com/api/auth/check-user?username=${this.username}`)
       .subscribe({
 
         next: (res) => {
@@ -71,7 +73,9 @@ export class ForgetLogin {
       return;
     }
 
-    this.http.post<any>("http://localhost:8080/api/auth/update-password", {
+
+   /* this.http.post<any>("http://localhost:8080/api/auth/update-password", { */
+       this.http.post<any>("https://pdftoexcel-latest.onrender.com/api/auth/update-password", {
       username: this.username,
       password: this.newPassword
     })

@@ -44,8 +44,11 @@ export class UpdateUser implements OnInit {
     this.getUserById();
 
   }
+
+   
   getUserById() {
-  this.http.get(`http://localhost:8080/api/auth/${this.userId}`)
+/*  this.http.get(`http://localhost:8080/api/auth/${this.userId}`) */
+  this.http.get(`https://pdftoexcel-latest.onrender.com/api/auth/${this.userId}`) 
     .subscribe((res: any) => {
       this.data = res.data[0];
       this.cd.detectChanges(); 
@@ -58,9 +61,12 @@ export class UpdateUser implements OnInit {
     });
 }
 
+
+
     updateUser(){
 
-    this.http.put(`http://localhost:8080/api/auth/${this.userId}`,this.data)
+  /*  this.http.put(`http://localhost:8080/api/auth/${this.userId}`,this.data) */
+     this.http.put(`https://pdftoexcel-latest.onrender.com/api/auth/${this.userId}`,this.data)
     .subscribe(res=>{
 
       alert("User Updated Successfully");
