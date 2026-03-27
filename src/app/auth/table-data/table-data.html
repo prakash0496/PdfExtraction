@@ -1,0 +1,98 @@
+<div class="container mt-4">
+
+  <h4 class="text-center mb-4 text-primary fw-bold">Admin Panel</h4>
+
+  <!-- SEARCH + Top Row -->
+  <div class="row mb-3 align-items-center">
+    <div class="col-md-4">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Search users..."
+        (input)="onFilterChange($event.target.value)"
+      />
+    </div>
+   <div class="col-md-8 d-flex justify-content-end align-items-center">
+
+  <span class="fw-bold text-secondary me-3">
+
+    <!-- Update User Button -->
+    <!-- <button type="button" class="btn btn-warning me-2"  (click)="updateUser(user)"">
+      Update User
+    </button> -->
+
+    <!-- User Register Button -->
+    <button type="button" class="btn btn-primary" (click)="UserRigister()">
+      User Register
+    </button>
+
+  </span>
+
+  <!-- Logout Button -->
+  <button type="button" class="btn btn-danger" (click)="logout()">Logout</button>
+
+</div>
+  </div>
+
+  <!-- TABLE -->
+  <div class="table-responsive shadow rounded">
+    <table class="table table-hover table-striped table-bordered text-center mb-0">
+     <thead class="table-dark">
+  <tr>
+    <th>#</th>
+    <th>First Name</th>
+    <th>Last Name</th>
+    <th>Company</th>
+    <th>Phone</th>
+    <th>Email</th>
+    <th>Serial Number</th>
+    <th>Action</th>
+  </tr>
+</thead>
+
+<tbody>
+  <tr *ngFor="let user of paginatedUsers$ | async; let i = index">
+    <td>{{ i + 1 + ((page$.getValue()-1) * pageSize) }}</td>
+    <td>{{ user.firstname || '-' }}</td>
+    <td>{{ user.lastname || '-' }}</td>
+    <td>{{ user.company || '-' }}</td>
+    <td>{{ user.phonenumber || '-' }}</td>
+    <td>{{ user.email_ids || '-' }}</td>
+    <td>{{ user.serialNumber || '-' }}</td>
+
+    <!-- Update Button Column -->
+    <td>
+      <button class="btn btn-warning btn-sm" (click)="updateUser(user)"> Update </button>
+    </td>
+  </tr>
+
+  <tr *ngIf="(paginatedUsers$ | async)?.length === 0">
+    <td colspan="8" class="text-danger fw-bold text-center">
+      No users found
+    </td>
+  </tr>
+</tbody>
+    </table>
+  </div>
+
+  <!-- PAGINATION -->
+  <div class="d-flex justify-content-between align-items-center mt-3">
+  <button type="button" class="btn btn-primary" (click)="prevPage()" [disabled]="prevDisabled$ | async">
+    Previous
+  </button>
+
+  <span class="fw-bold">
+    Page {{ page$.getValue() }} of {{ totalPages$ | async }}
+  </span>
+
+  <button type="button" class="btn btn-primary" (click)="nextPage()" [disabled]="nextDisabled$ | async">
+    Next
+  </button>
+</div>
+
+  <!-- BACK BUTTON CENTERED -->
+  <div class="d-flex justify-content-center mt-3">
+    <button type="button" class="btn btn-secondary" (click)="goBack()">Back</button>
+  </div>
+
+</div>

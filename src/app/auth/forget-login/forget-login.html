@@ -1,0 +1,104 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<div class="container mt-5">
+  <div class="card p-4 shadow mx-auto" style="max-width:400px">
+
+    <h3 class="text-center mb-3">Forgot Password</h3>
+
+    <form #form="ngForm">
+
+      <!-- Username -->
+      <div class="mb-3">
+        <label class="form-label">Username</label>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="username"
+          name="username"
+          required>
+      </div>
+
+      <!-- Verify Username -->
+      <button
+        *ngIf="!showPasswordFields"
+        type="button"
+        class="btn btn-primary w-100"
+        (click)="verifyUsername()">
+        Verify Username
+      </button>
+
+      <!-- Password Section -->
+      <div *ngIf="showPasswordFields">
+
+        <!-- New Password -->
+        <div class="mb-3 mt-3">
+          <label class="form-label">New Password</label>
+
+          <div class="input-group">
+            <input
+              [type]="showNewPassword ? 'text' : 'password'"
+              class="form-control"
+              [(ngModel)]="newPassword"
+              name="newPassword"
+              required>
+
+            <span
+              class="input-group-text"
+              (click)="toggleNewPassword()"
+              style="cursor:pointer">
+
+              <i class="fa"
+                [ngClass]="showNewPassword ? 'fa-eye-slash' : 'fa-eye'">
+              </i>
+
+            </span>
+          </div>
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="mb-3">
+          <label class="form-label">Confirm Password</label>
+
+          <div class="input-group">
+            <input
+              [type]="showConfirmPassword ? 'text' : 'password'"
+              class="form-control"
+              [(ngModel)]="confirmPassword"
+              name="confirmPassword"
+              required>
+
+            <span
+              class="input-group-text"
+              (click)="toggleConfirmPassword()"
+              style="cursor:pointer">
+
+              <i class="fa"
+                [ngClass]="showConfirmPassword ? 'fa-eye-slash' : 'fa-eye'">
+              </i>
+
+            </span>
+          </div>
+        </div>
+
+        <!-- Update Password -->
+        <button
+          type="button"
+          class="btn btn-success w-100"
+          (click)="updatePassword()">
+          Update Password
+        </button>
+
+      </div>
+
+      <!-- Back to Login -->
+      <button
+        type="button"
+        class="btn btn-secondary w-100 mt-2"
+        (click)="goToLogin()">
+        Back to Login
+      </button>
+
+    </form>
+
+  </div>
+</div>
